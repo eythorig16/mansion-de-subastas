@@ -11,11 +11,28 @@ const AuctionService = require('./services/auctionService');
 
 router.get('/arts', (req, res) => {
     const artService = new ArtService();
-    const { GET_ALL_ARTS } = artService.events;
-    artService.on(GET_ALL_ARTS, (arts) => {
-        return res.json(arts.getAllArts());
-    }); 
+    artService.on(artService.events.ERROR, err => {
+        return res.status(500).send(err);
+    });
+
+    artService.on(artService.events.GET_ALL_ARTS, arts => {
+        return res.status(200).send(arts);
+    });
+    artService.getAllArts();
 });
+
+router.get('/arts:id', (req, res) => {
+    const artService = new ArtService();
+    artService.on(artService.events.ERROR, err => {
+        return res.status(500).send(err);
+    });
+
+    artService.on(artService.events.GET_ART_BY_ID, art => {
+        return res.status(200).send(art);
+    });
+    artService.getArtById(id);
+});
+
 
 
 app.use(bodyParser.json());
