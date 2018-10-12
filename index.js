@@ -1,17 +1,20 @@
 // Here the web service should be setup and routes declared
-const { Artist, Art, Auction, AuctionBid, Customer } = require('./data/db');
 const express = require('express');
 const bodyParser = require('body-parser');
 const router = express.Router();
 const app = express();
 const port = 3000;
-const artistService = require('./services/artistService');
-const artService = require('./services/artService');
-const customerService = require('./services/customerService');
-const auctionService = require('./services/auctionService');
+const ArtistService = require('./services/artistService');
+const ArtService = require('./services/artService');
+const CustomerService = require('./services/customerService');
+const AuctionService = require('./services/auctionService');
 
 router.get('/arts', (req, res) => {
-    return res.json(artService.getAllArts());
+    const artService = new ArtService();
+    const { GET_ALL_ARTS } = artService.events;
+    artService.on(GET_ALL_ARTS, (arts) => {
+        return res.json(arts.getAllArts());
+    }); 
 });
 
 
