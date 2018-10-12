@@ -25,7 +25,6 @@ router.get('/arts', (req, res) => {
 router.get('/arts/:id', (req, res) => {
     const artService = new ArtService();
     const { id } = req.params;
-    console.log(id);
     artService.on(artService.events.ERROR, err => {
         return res.status(500).send(err);
     });
@@ -63,6 +62,19 @@ router.get('/artists', (req, res) => {
     artistService.getAllArtists();
 });
 
+router.get('/artists/:id', (req, res) => {
+    const artistService = new ArtistService();
+    const { id } = req.params;
+    artistService.on(artistService.events.ERROR, err => {
+        return res.status(500).send(err);
+    });
+
+    artistService.on(artistService.events.GET_ARTIST_BY_ID, art => {
+        return res.status(200).send(art);
+    });
+    artistService.getArtistById(id);
+});
+
 router.post('/artists', (req, res) => {
     const { body } = req;
     const artistService = new ArtistService();
@@ -87,6 +99,19 @@ router.get('/customers', (req, res) => {
         return res.status(200).send(customers);
     });
     customerService.getAllCustomers();
+});
+
+router.get('/customers/:id', (req, res) => {
+    const customerService = new CustomerService();
+    const { id } = req.params;
+    customerService.on(customerService.events.ERROR, err => {
+        return res.status(500).send(err);
+    });
+
+    customerService.on(customerService.events.GET_CUSTOMER_BY_ID, customer => {
+        return res.status(200).send(customer);
+    });
+    customerService.getCustomerById(id);
 });
 
 router.post('/customers', (req, res) => {
