@@ -1,4 +1,5 @@
 EventEmitter = require('events');
+const { Auction } = require('../data/db');
 
 class AuctionService extends EventEmitter {
 	constructor() {
@@ -9,18 +10,27 @@ class AuctionService extends EventEmitter {
 			GET_AUCTION_WINNER: 'GET_AUCTION_WINNER',
 			CREATE_AUCTION: 'CREATE_AUCTION',
 			GET_AUCTION_BIDS_WITHIN_AUCTION: 'GET_AUCTION_BIDS_WITHIN_AUCTION',
-			PLACE_NEW_BID: 'PLACE_NEW_BID'
+			PLACE_NEW_BID: 'PLACE_NEW_BID',
+			ERROR: 'ERROR'
 		};
 	}
 
 	getAllAuctions() {
 		// Your implementation goes here
-        // Should emit a GET_ALL_AUCTIONS event when the data is available
+		// Should emit a GET_ALL_AUCTIONS event when the data is available
+		Auction.find({}, (err, auctions) => {
+            if (err) { this.emit(this.events.ERROR, err) }
+            else { this.emit(this.events.GET_ALL_AUCTIONS, auctions)}
+        });
 	};
 
 	getAuctionById(id) {
 		// Your implementation goes here
-        // Should emit a GET_AUCTION_BY_ID event when the data is available
+		// Should emit a GET_AUCTION_BY_ID event when the data is available
+		Auction.findById(id, (err, auction) => {
+            if (err) { this.emit(this.events.ERROR, err) }
+            else { this.emit(this.events.GET_AUCTION_BY_ID, auction)}
+        });
 	};
 
 	getAuctionWinner(auctionId) {
@@ -30,7 +40,12 @@ class AuctionService extends EventEmitter {
 
 	createAuction(auction) {
 		// Your implementation goes here
-        // Should emit a CREATE_AUCTION event when the data is available
+		// Should emit a CREATE_AUCTION event when the data is available
+		Auction.create(auction, err => {
+            if (err) { this.emit(this.events.ERROR, err) }
+            else { 
+                this.emit(this.events.CREATE_AUCTION, auction)}
+        });
 	};
 
 	getAuctionBidsWithinAuction(auctionId) {
