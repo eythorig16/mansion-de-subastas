@@ -140,6 +140,32 @@ router.get('/auctions', (req, res) => {
     auctionService.getAllAuctions();
 });
 
+router.get('/auctions/:id', (req, res) => {
+    const auctionService = new AuctionService();
+    const { id } = req.params;
+    auctionService.on(auctionService.events.ERROR, err => {
+        return res.status(500).send(err);
+    });
+
+    auctionService.on(auctionService.events.GET_AUCTION_BY_ID, auction => {
+        return res.status(200).send(auction);
+    });
+    auctionService.getAuctionById(id);
+});
+
+router.post('/auctions', (req, res) => {
+    const { body } = req;
+    const auctionService = new AuctionService();
+    auctionService.on(auctionService.events.ERROR, err => {
+        return res.status(500).send(err);
+    });
+
+    auctionService.on(auctionService.events.CREATE_CUSTOMER, auction => {
+        return res.status(201).send(auction);
+    });
+    auctionService.createAuction(body);
+});
+
 app.use(bodyParser.json());
 app.use('/api', router);
 
