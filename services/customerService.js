@@ -1,5 +1,5 @@
 const EventEmitter = require('events');
-const { Artist } = require('../data/db');
+const { Customer } = require('../data/db');
 
 class CustomerService extends EventEmitter {
     constructor() {
