@@ -1,0 +1,19 @@
+{
+	"name": "mansion-de-subastas",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"seed": "node ./data/seed.js",
+		"queries": "node ./index.js"
+	},
+	"keywords": [],
+	"author": "Eyzzi",
+	"license": "Eyzzi",
+	"dependencies": {
+		"mongoose": "^5.3.1"
+	},
+	"devDependencies": {
+		"cli-progress": "^2.1.0"
+	}
+}
