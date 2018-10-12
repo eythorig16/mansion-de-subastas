@@ -160,7 +160,7 @@ router.post('/auctions', (req, res) => {
         return res.status(500).send(err);
     });
 
-    auctionService.on(auctionService.events.CREATE_CUSTOMER, auction => {
+    auctionService.on(auctionService.events.CREATE_AUCTION, auction => {
         return res.status(201).send(auction);
     });
     auctionService.createAuction(body);
