@@ -9,7 +9,7 @@ const ArtService = require('./services/artService');
 const CustomerService = require('./services/customerService');
 const AuctionService = require('./services/auctionService');
 
-//art
+//arts
 router.get('/arts', (req, res) => {
     const artService = new ArtService();
     artService.on(artService.events.ERROR, err => {
@@ -24,6 +24,7 @@ router.get('/arts', (req, res) => {
 
 router.get('/arts:id', (req, res) => {
     const artService = new ArtService();
+    const { id } = req.params;
     artService.on(artService.events.ERROR, err => {
         return res.status(500).send(err);
     });
@@ -33,7 +34,12 @@ router.get('/arts:id', (req, res) => {
     });
     artService.getArtById(id);
 });
-//artist
+
+router.post('/arts', (req, res) => {
+    const { body } = req;
+});
+
+//artists
 router.get('/artists', (req, res) => {
     const artistService = new ArtistService();
     artistService.on(artistService.events.ERROR, err => {
@@ -45,6 +51,7 @@ router.get('/artists', (req, res) => {
     });
     artistService.getAllArtists();
 });
+
 //customers
 router.get('/customers', (req, res) => {
     const customerService = new CustomerService();
@@ -56,6 +63,19 @@ router.get('/customers', (req, res) => {
         return res.status(200).send(customers);
     });
     customerService.getAllCustomers();
+});
+
+//auctions
+router.get('/auctions', (req, res) => {
+    const auctionService = new AuctionService();
+    auctionService.on(auctionService.events.ERROR, err => {
+        return res.status(500).send(err);
+    });
+
+    auctionService.on(auctionService.events.GET_ALL_AUCTIONS, auctions => {
+        return res.status(200).send(auctions);
+    });
+    auctionService.getAllAuctions();
 });
 
 app.use(bodyParser.json());
