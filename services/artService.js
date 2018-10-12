@@ -12,6 +12,7 @@ class ArtService extends EventEmitter {
     getAllArts() {
         // Your implementation goes here
         // Should emit a GET_ALL_ARTS event when the data is available
+        
     };
 
     getArtById(id) {
