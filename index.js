@@ -22,9 +22,10 @@ router.get('/arts', (req, res) => {
     artService.getAllArts();
 });
 
-router.get('/arts:id', (req, res) => {
+router.get('/arts/:id', (req, res) => {
     const artService = new ArtService();
     const { id } = req.params;
+    console.log(id);
     artService.on(artService.events.ERROR, err => {
         return res.status(500).send(err);
     });
@@ -37,6 +38,16 @@ router.get('/arts:id', (req, res) => {
 
 router.post('/arts', (req, res) => {
     const { body } = req;
+    const artService = new ArtService();
+    artService.on(artService.events.ERROR, err => {
+        return res.status(500).send(err);
+    });
+
+    artService.on(artService.events.CREATE_ART, art => {
+        return res.status(201).send(art);
+    });
+    artService.createArt(body);
+
 });
 
 //artists
@@ -52,6 +63,19 @@ router.get('/artists', (req, res) => {
     artistService.getAllArtists();
 });
 
+router.post('/artists', (req, res) => {
+    const { body } = req;
+    const artistService = new ArtistService();
+    artistService.on(artistService.events.ERROR, err => {
+        return res.status(500).send(err);
+    });
+
+    artistService.on(artistService.events.CREATE_ARTIST, artist => {
+        return res.status(201).send(artist);
+    });
+    artistService.createArtist(body);
+});
+
 //customers
 router.get('/customers', (req, res) => {
     const customerService = new CustomerService();
@@ -63,6 +87,19 @@ router.get('/customers', (req, res) => {
         return res.status(200).send(customers);
     });
     customerService.getAllCustomers();
+});
+
+router.post('/customers', (req, res) => {
+    const { body } = req;
+    const customerService = new CustomerService();
+    customerService.on(customerService.events.ERROR, err => {
+        return res.status(500).send(err);
+    });
+
+    customerService.on(customerService.events.CREATE_CUSTOMER, customer => {
+        return res.status(201).send(customer);
+    });
+    customerService.createCustomer(body);
 });
 
 //auctions

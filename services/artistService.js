@@ -32,7 +32,7 @@ class ArtistService extends EventEmitter {
     createArtist(artist) {
         // Your implementation goes here
         // Should emit a CREATE_ARTIST event when the data is available
-        Art.create(artist, err => {
+        Artist.create(artist, err => {
             if (err) { this.emit(this.events.ERROR, err) }
             else { this.emit(this.events.CREATE_ART, artist)}
         });
