@@ -40,7 +40,7 @@ class CustomerService extends EventEmitter {
         // Should emit a CREATE_CUSTOMER event when the data is available
         Customer.create(customer, err => {
             if (err) { this.emit(this.events.ERROR, err) }
-            else { this.emit(this.events.CREATE_ART, customer)}
+            else { this.emit(this.events.CREATE_CUSTOMER, customer)}
         });
     };
 };
